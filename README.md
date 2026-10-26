@@ -132,10 +132,4 @@ No extra steps — just make sure Network Access allows connections from your ho
 3. On [Vercel](https://vercel.com), import the repo, framework preset "Angular", build command `ng build`, output directory `dist/frontend/browser`.
 4. Deploy. Update `CLIENT_URL` in your Render backend's environment variables to match your new Vercel URL, then redeploy the backend so CORS allows it.
 
-## 10. Notes for your viva / presentation
 
-- **Architecture**: Angular (frontend, talks over REST + WebSocket) ↔ Express/Node (backend API + Socket.IO server) ↔ MongoDB Atlas (cloud database via Mongoose).
-- **Auth**: passwords are hashed with bcrypt before saving; login returns a JWT that the frontend stores and attaches to every request via an HTTP interceptor.
-- **Role-based access**: enforced both in the UI (hiding buttons) and in the backend (middleware checks the role before allowing an action) — the backend check is what actually matters for security.
-- **Real-time**: Socket.IO keeps a live connection open after login; it's used for chat messages and instant notifications (e.g. "you were assigned a task") without refreshing the page.
-- **Kanban drag-and-drop**: built with Angular CDK's `DragDropModule`; dropping a card sends a `PATCH` request to update the task's status in MongoDB.
