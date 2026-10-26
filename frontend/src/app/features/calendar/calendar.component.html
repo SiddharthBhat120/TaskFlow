@@ -1,0 +1,37 @@
+<div class="page-header">
+  <div>
+    <h1>Calendar</h1>
+    <p class="subtitle">Deadlines for all your tasks at a glance</p>
+  </div>
+</div>
+
+<div class="calendar-layout">
+  <mat-card class="calendar-card">
+    <mat-calendar
+      [selected]="selectedDate"
+      (selectedChange)="onDateSelected($event)"
+      [dateClass]="dateClass"
+    ></mat-calendar>
+  </mat-card>
+
+  <mat-card class="tasks-for-day">
+    <h3>Tasks due {{ selectedDate | date: 'mediumDate' }}</h3>
+    @if (loading) {
+      <p>Loading...</p>
+    } @else if (tasksForSelectedDate.length === 0) {
+      <p class="empty-msg">No tasks due on this day.</p>
+    } @else {
+      <div class="day-task-list">
+        @for (t of tasksForSelectedDate; track t._id) {
+          <div class="day-task-item">
+            <span class="priority-dot" [style.background]="priorityColor(t.priority)"></span>
+            <div>
+              <p class="task-title">{{ t.title }}</p>
+              <mat-chip class="status-chip">{{ t.status }}</mat-chip>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </mat-card>
+</div>

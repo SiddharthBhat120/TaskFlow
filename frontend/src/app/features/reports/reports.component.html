@@ -1,0 +1,60 @@
+<div class="page-header">
+  <div>
+    <h1>Reports & Analytics</h1>
+    <p class="subtitle">Overview of task completion and project health</p>
+  </div>
+</div>
+
+@if (summary) {
+  <div class="reports-grid">
+    <mat-card class="chart-card">
+      <h3>Task Status Breakdown</h3>
+      <canvas baseChart [data]="statusChartData" [options]="pieOptions" type="pie"></canvas>
+    </mat-card>
+
+    <mat-card class="completion-card">
+      <h3>Overall Completion Rate</h3>
+      <div class="big-number">{{ completionRate }}%</div>
+      <p class="sub-text">{{ summary.completedTasks }} of {{ summary.totalTasks }} tasks completed</p>
+    </mat-card>
+  </div>
+}
+
+<mat-card class="table-card">
+  <h3>Projects Overview</h3>
+  @if (loading) {
+    <p>Loading...</p>
+  } @else {
+    <table mat-table [dataSource]="projects" class="full-width-table">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Project</th>
+        <td mat-cell *matCellDef="let p">{{ p.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let p">
+          <span class="status-badge" [style.background]="statusColor(p.status)">{{ p.status }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="priority">
+        <th mat-header-cell *matHeaderCellDef>Priority</th>
+        <td mat-cell *matCellDef="let p">{{ p.priority }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="members">
+        <th mat-header-cell *matHeaderCellDef>Members</th>
+        <td mat-cell *matCellDef="let p">{{ p.members?.length || 0 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="deadline">
+        <th mat-header-cell *matHeaderCellDef>Deadline</th>
+        <td mat-cell *matCellDef="let p">{{ p.deadline ? (p.deadline | date: 'mediumDate') : '—' }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  }
+</mat-card>

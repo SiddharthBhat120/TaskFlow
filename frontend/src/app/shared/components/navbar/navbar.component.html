@@ -1,0 +1,44 @@
+<mat-toolbar class="navbar">
+  <button mat-icon-button (click)="toggleSidebar.emit()" class="menu-btn">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <a routerLink="/dashboard" class="brand">
+    <mat-icon>task_alt</mat-icon>
+    <span>TaskFlow</span>
+  </a>
+
+  <span class="spacer"></span>
+
+  <button mat-icon-button [matMenuTriggerFor]="notifMenu" matBadge="{{ unreadCount }}" [matBadgeHidden]="unreadCount === 0" matBadgeColor="warn" matBadgeSize="small">
+    <mat-icon>notifications</mat-icon>
+  </button>
+  <mat-menu #notifMenu="matMenu" class="notif-menu">
+    <div class="notif-header" (click)="$event.stopPropagation()">
+      <span>Notifications</span>
+      <button mat-button color="primary" (click)="markAllRead()">Mark all read</button>
+    </div>
+    @if (notifications.length === 0) {
+      <div class="notif-empty">No notifications yet</div>
+    }
+    @for (n of notifications; track n._id) {
+      <button mat-menu-item (click)="markRead(n)" [class.unread]="!n.isRead">
+        {{ n.message }}
+      </button>
+    }
+  </mat-menu>
+
+  <button mat-icon-button [matMenuTriggerFor]="userMenu">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <mat-menu #userMenu="matMenu">
+    <div class="user-info">
+      <strong>{{ authService.currentUser()?.name }}</strong>
+      <span>{{ authService.currentUser()?.role }}</span>
+    </div>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>

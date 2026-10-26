@@ -1,0 +1,31 @@
+<div class="page-header">
+  <div>
+    <h1>Notifications</h1>
+    <p class="subtitle">Stay up to date with tasks and project activity</p>
+  </div>
+  <button mat-button color="primary" (click)="markAllRead()">Mark all as read</button>
+</div>
+
+@if (loading) {
+  <p>Loading...</p>
+} @else if (notifications.length === 0) {
+  <mat-card class="empty-state">
+    <mat-icon>notifications_off</mat-icon>
+    <p>You're all caught up. No notifications yet.</p>
+  </mat-card>
+} @else {
+  <div class="notif-list">
+    @for (n of notifications; track n._id) {
+      <mat-card class="notif-item" [class.unread]="!n.isRead" (click)="markRead(n)">
+        <mat-icon class="notif-icon">{{ iconFor(n.type) }}</mat-icon>
+        <div class="notif-body">
+          <p>{{ n.message }}</p>
+          <span class="timestamp">{{ n.createdAt | date: 'medium' }}</span>
+        </div>
+        @if (!n.isRead) {
+          <span class="unread-dot"></span>
+        }
+      </mat-card>
+    }
+  </div>
+}

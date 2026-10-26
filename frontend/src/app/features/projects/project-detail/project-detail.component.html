@@ -1,0 +1,40 @@
+@if (loading) {
+  <p>Loading project...</p>
+} @else if (project) {
+  <a routerLink="/projects" class="back-link">
+    <mat-icon>arrow_back</mat-icon> Back to Projects
+  </a>
+
+  <div class="detail-header">
+    <div>
+      <div class="title-row">
+        <h1>{{ project.name }}</h1>
+        <span class="status-badge" [style.background]="statusColor(project.status)">{{ project.status }}</span>
+      </div>
+      <p class="desc">{{ project.description }}</p>
+    </div>
+    <div class="members-preview">
+      @for (m of members; track m._id) {
+        <span class="avatar-chip" [title]="m.name">{{ m.name.charAt(0) }}</span>
+      }
+    </div>
+  </div>
+
+  <mat-tab-group class="project-tabs">
+    <mat-tab label="Board">
+      <div class="tab-content">
+        <app-kanban-board [projectId]="project._id" [projectMembers]="members"></app-kanban-board>
+      </div>
+    </mat-tab>
+    <mat-tab label="Team Chat">
+      <div class="tab-content">
+        <app-chat [projectId]="project._id"></app-chat>
+      </div>
+    </mat-tab>
+    <mat-tab label="Activity">
+      <div class="tab-content">
+        <app-activity [projectId]="project._id"></app-activity>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+}

@@ -1,0 +1,18 @@
+.sidebar-list {
+  padding-top: 12px;
+
+  a {
+    border-radius: 8px;
+    margin: 2px 8px;
+    width: calc(100% - 16px);
+  }
+}
+
+.active-link {
+  background: #eef2ff !important;
+  color: #4f46e5 !important;
+
+  mat-icon {
+    color: #4f46e5 !important;
+  }
+}

@@ -1,0 +1,11 @@
+<app-navbar (toggleSidebar)="toggleSidebar()"></app-navbar>
+
+<mat-sidenav-container class="shell-container">
+  <mat-sidenav mode="side" [opened]="sidebarOpen" class="shell-sidenav">
+    <app-sidebar></app-sidebar>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="shell-content">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

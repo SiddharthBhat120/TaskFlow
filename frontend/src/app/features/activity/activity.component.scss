@@ -1,0 +1,58 @@
+.empty-activity {
+  text-align: center;
+  color: #9ca3af;
+  padding: 24px;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 12px;
+  padding: 10px 4px;
+  border-bottom: 1px solid #f3f4f6;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.timeline-icon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  background: #eef2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: #4f46e5;
+  }
+}
+
+.timeline-content {
+  p {
+    margin: 0;
+    font-size: 13px;
+    color: #374151;
+  }
+}
+
+.project-tag {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.timestamp {
+  font-size: 11px;
+  color: #9ca3af;
+}

@@ -1,0 +1,17 @@
+# dependencies and build output
+node_modules/
+dist/
+.angular/
+
+# secrets - never commit these
+.env
+.env.*
+!.env.example
+
+# uploaded files
+backend/uploads/files/*
+!backend/uploads/files/.gitkeep
+
+# OS / editor
+.DS_Store
+Thumbs.db

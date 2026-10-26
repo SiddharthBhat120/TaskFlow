@@ -1,0 +1,71 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Edit Task' : 'Create Task' }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Task Title</mat-label>
+      <input matInput formControlName="title" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" rows="3"></textarea>
+    </mat-form-field>
+
+    <div class="row-2">
+      <mat-form-field appearance="outline">
+        <mat-label>Assign To</mat-label>
+        <mat-select formControlName="assignedTo">
+          <mat-option value="">Unassigned</mat-option>
+          @for (m of data.members; track m._id) {
+            <mat-option [value]="m._id">{{ m.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Priority</mat-label>
+        <mat-select formControlName="priority">
+          @for (p of priorities; track p) {
+            <mat-option [value]="p">{{ p }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Deadline</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="deadline" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    @if (isEdit) {
+      <div class="attachments-section">
+        <label class="upload-label">
+          <mat-icon>attach_file</mat-icon>
+          {{ uploading ? 'Uploading...' : 'Attach a file' }}
+          <input type="file" hidden (change)="onFileSelected($event)" [disabled]="uploading" />
+        </label>
+
+        @if (data.task?.attachments && data.task!.attachments!.length > 0) {
+          <div class="attachment-list">
+            @for (a of data.task!.attachments; track a.filename) {
+              <a [href]="serverUrl + a.path" target="_blank" class="attachment-chip">
+                <mat-icon>description</mat-icon>
+                {{ a.originalName }}
+              </a>
+            }
+          </div>
+        }
+      </div>
+    }
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" [mat-dialog-close]="false">Cancel</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || saving">
+      {{ isEdit ? 'Save Changes' : 'Create Task' }}
+    </button>
+  </mat-dialog-actions>
+</form>

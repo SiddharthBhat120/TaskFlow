@@ -1,0 +1,14 @@
+.full-width {
+  width: 100%;
+}
+
+.row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+mat-dialog-content {
+  min-width: 420px;
+  max-width: 90vw;
+}

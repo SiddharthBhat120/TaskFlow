@@ -1,0 +1,45 @@
+.notif-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.notif-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px !important;
+  border-radius: 10px !important;
+  cursor: pointer;
+  position: relative;
+
+  &.unread {
+    background: #eef2ff !important;
+  }
+}
+
+.notif-icon {
+  color: #4f46e5;
+}
+
+.notif-body {
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: #1e1e2f;
+  }
+}
+
+.timestamp {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.unread-dot {
+  position: absolute;
+  right: 16px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+}

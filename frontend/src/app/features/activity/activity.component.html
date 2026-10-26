@@ -1,0 +1,24 @@
+@if (loading) {
+  <p>Loading activity...</p>
+} @else if (activities.length === 0) {
+  <p class="empty-activity">No activity yet.</p>
+} @else {
+  <div class="timeline">
+    @for (a of activities; track a._id) {
+      <div class="timeline-item">
+        <div class="timeline-icon">
+          <mat-icon>{{ iconFor(a.entityType) }}</mat-icon>
+        </div>
+        <div class="timeline-content">
+          <p>
+            <strong>{{ a.user.name }}</strong> {{ a.action }}
+            @if (!projectId) {
+              <span class="project-tag">in {{ projectName(a) }}</span>
+            }
+          </p>
+          <span class="timestamp">{{ a.createdAt | date: 'medium' }}</span>
+        </div>
+      </div>
+    }
+  </div>
+}

@@ -1,0 +1,35 @@
+<div class="chat-container">
+  <div class="messages-area">
+    @if (messages.length === 0) {
+      <p class="empty-chat">No messages yet. Say hello to your team!</p>
+    }
+    @for (msg of messages; track msg._id) {
+      <div class="message-row" [class.mine]="isMine(msg)">
+        @if (!isMine(msg)) {
+          <span class="sender-name">{{ senderName(msg) }}</span>
+        }
+        <div class="bubble">{{ msg.text }}</div>
+      </div>
+    }
+    <div #scrollAnchor></div>
+  </div>
+
+  @if (typingUser) {
+    <div class="typing-indicator">{{ typingUser }} is typing...</div>
+  }
+
+  <div class="chat-input-row">
+    <mat-form-field appearance="outline" class="chat-input">
+      <input
+        matInput
+        placeholder="Type a message..."
+        [(ngModel)]="newMessage"
+        (input)="onTyping()"
+        (keyup.enter)="send()"
+      />
+    </mat-form-field>
+    <button mat-mini-fab color="primary" (click)="send()" [disabled]="!newMessage.trim()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</div>

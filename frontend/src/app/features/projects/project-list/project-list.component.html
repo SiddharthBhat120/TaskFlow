@@ -1,0 +1,45 @@
+<div class="page-header">
+  <div>
+    <h1>Projects</h1>
+    <p class="subtitle">All projects you manage or are a member of</p>
+  </div>
+  @if (canManage()) {
+    <button mat-flat-button color="primary" (click)="openCreateDialog()">
+      <mat-icon>add</mat-icon> New Project
+    </button>
+  }
+</div>
+
+@if (loading) {
+  <p>Loading projects...</p>
+} @else if (projects.length === 0) {
+  <mat-card class="empty-state">
+    <mat-icon>folder_off</mat-icon>
+    <p>No projects yet. {{ canManage() ? 'Create your first project to get started.' : 'Ask your manager to add you to a project.' }}</p>
+  </mat-card>
+} @else {
+  <div class="project-grid">
+    @for (project of projects; track project._id) {
+      <mat-card class="project-card" [routerLink]="['/projects', project._id]">
+        <div class="card-top">
+          <span class="status-badge" [style.background]="statusColor(project.status)">{{ project.status }}</span>
+          @if (canManage()) {
+            <div class="card-actions">
+              <button mat-icon-button (click)="openEditDialog(project, $event)"><mat-icon>edit</mat-icon></button>
+              <button mat-icon-button (click)="deleteProject(project, $event)"><mat-icon>delete</mat-icon></button>
+            </div>
+          }
+        </div>
+        <h3>{{ project.name }}</h3>
+        <p class="desc">{{ project.description || 'No description provided.' }}</p>
+        <div class="card-footer">
+          <mat-chip>{{ project.priority }} priority</mat-chip>
+          <span class="member-count">
+            <mat-icon>group</mat-icon>
+            {{ project.members.length || 0 }}
+          </span>
+        </div>
+      </mat-card>
+    }
+  </div>
+}

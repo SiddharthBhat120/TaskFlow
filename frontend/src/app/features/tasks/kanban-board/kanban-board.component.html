@@ -1,0 +1,56 @@
+@if (loading) {
+  <p>Loading board...</p>
+} @else {
+  <div class="board" cdkDropListGroup>
+    @for (column of columns; track column.status) {
+      <div class="column">
+        <div class="column-header">
+          <h4>{{ column.title }}</h4>
+          <span class="count-badge">{{ column.tasks.length }}</span>
+        </div>
+
+        <div
+          class="task-list"
+          cdkDropList
+          [cdkDropListData]="column.tasks"
+          (cdkDropListDropped)="drop($event)"
+        >
+          @for (task of column.tasks; track task._id) {
+            <mat-card class="task-card" cdkDrag (click)="openEditTask(task)">
+              <div class="task-top">
+                <span class="priority-dot" [style.background]="priorityColor(task.priority)"></span>
+                @if (canManage()) {
+                  <button mat-icon-button class="delete-btn" (click)="deleteTask(task, $event)">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                }
+              </div>
+              <p class="task-title">{{ task.title }}</p>
+              @if (task.description) {
+                <p class="task-desc">{{ task.description }}</p>
+              }
+              <div class="task-footer">
+                <span class="assignee">
+                  <mat-icon>person</mat-icon>
+                  {{ assigneeName(task) }}
+                </span>
+                @if (task.attachments && task.attachments.length > 0) {
+                  <span class="attach-count">
+                    <mat-icon>attach_file</mat-icon>
+                    {{ task.attachments.length }}
+                  </span>
+                }
+              </div>
+            </mat-card>
+          }
+        </div>
+
+        @if (canManage()) {
+          <button mat-button class="add-task-btn" (click)="openCreateTask(column.status)">
+            <mat-icon>add</mat-icon> Add Task
+          </button>
+        }
+      </div>
+    }
+  </div>
+}

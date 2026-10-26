@@ -1,0 +1,64 @@
+<div class="dashboard-page">
+  <h1>Welcome back, {{ authService.currentUser()?.name }}</h1>
+  <p class="subtitle">Here's what's happening across your projects today.</p>
+
+  @if (summary) {
+    <div class="stat-cards">
+      <mat-card class="stat-card">
+        <mat-icon class="stat-icon" style="color:#4f46e5">folder</mat-icon>
+        <div>
+          <span class="stat-value">{{ summary.totalProjects }}</span>
+          <span class="stat-label">Total Projects</span>
+        </div>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-icon class="stat-icon" style="color:#10b981">bolt</mat-icon>
+        <div>
+          <span class="stat-value">{{ summary.activeProjects }}</span>
+          <span class="stat-label">Active Projects</span>
+        </div>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-icon class="stat-icon" style="color:#f59e0b">checklist</mat-icon>
+        <div>
+          <span class="stat-value">{{ summary.totalTasks }}</span>
+          <span class="stat-label">Total Tasks</span>
+        </div>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-icon class="stat-icon" style="color:#8b5cf6">task_alt</mat-icon>
+        <div>
+          <span class="stat-value">{{ summary.completedTasks }}</span>
+          <span class="stat-label">Completed Tasks</span>
+        </div>
+      </mat-card>
+
+      @if (summary.totalUsers !== null) {
+        <mat-card class="stat-card">
+          <mat-icon class="stat-icon" style="color:#ec4899">group</mat-icon>
+          <div>
+            <span class="stat-value">{{ summary.totalUsers }}</span>
+            <span class="stat-label">Team Members</span>
+          </div>
+        </mat-card>
+      }
+    </div>
+
+    <div class="chart-grid">
+      <mat-card class="chart-card">
+        <h3>Tasks by Status</h3>
+        <canvas baseChart [data]="statusChartData" [options]="doughnutOptions" type="doughnut"></canvas>
+      </mat-card>
+
+      <mat-card class="chart-card">
+        <h3>Tasks by Priority</h3>
+        <canvas baseChart [data]="priorityChartData" [options]="barOptions" type="bar"></canvas>
+      </mat-card>
+    </div>
+  } @else if (loading) {
+    <p>Loading dashboard...</p>
+  }
+</div>
