@@ -1,22 +1,75 @@
-# TaskFlow — Project Collaboration & Team Management System
+# TaskFlow
 
-A full-stack project management app built with **Angular 19 + Angular Material** (frontend), **Node.js/Express** (backend), and **MongoDB Atlas** (database). Includes JWT authentication with role-based access, a drag-and-drop Kanban board, real-time chat and notifications (Socket.IO), file uploads, a dashboard with charts, calendar, reports, and an activity timeline.
+**Project and team management for small teams: a Kanban board, live team chat, and role-based access in one app.**
 
-## What's inside
+Built with Angular 19, Node.js/Express, MongoDB and Socket.IO.
+
+## What it does
+
+- **Kanban board** with drag-and-drop between columns. A team member can move their own assigned tasks; only an Admin or Project Manager can create or delete tasks.
+- **Live team chat** inside each project, with typing indicators, over Socket.IO. The socket connection is authenticated with the user's JWT.
+- **Three roles** (Admin, Project Manager, Team Member), checked on the server for sensitive actions and in the Angular app with route guards.
+- **Notifications**, a **calendar** of task deadlines, and an **activity timeline** of what changed in each project.
+- **Dashboard and reports** with charts (Chart.js). The Reports page is limited to Admins and Project Managers.
+- **File uploads** on tasks (10 MB limit; images, PDFs, Office documents, zip, txt, csv).
+- **Accounts**: register, login, forgot and reset password.
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | Angular 19, Angular Material, Angular CDK (drag-and-drop), Chart.js, RxJS |
+| Backend | Node.js, Express, Socket.IO, express-validator, Multer |
+| Database | MongoDB Atlas with Mongoose |
+| Auth | JSON Web Tokens, bcrypt password hashing |
+
+## How it is organised
 
 ```
 taskflow/
-├── backend/     Node.js + Express API, MongoDB models, Socket.IO server
-└── frontend/    Angular 19 app (Material UI, CDK drag-drop, Chart.js)
+├── backend/
+│   ├── controllers/   auth, projects, tasks, chat, dashboard, notifications, uploads
+│   ├── middleware/    JWT check, role check, upload limits, error handler
+│   ├── models/        User, Project, Task, Message, Notification, Activity
+│   ├── routes/        REST API under /api
+│   ├── sockets/       Socket.IO handlers for project chat
+│   └── seed.js        sample users, projects and tasks
+└── frontend/src/app/
+    ├── core/          guards, HTTP interceptor (adds the token), services, models
+    ├── features/      auth, dashboard, projects, tasks, chat, calendar, reports, notifications, activity
+    └── shared/        shared components and styles
 ```
 
-## 1. Prerequisites
+## What each role can do
+
+- **Admin** — sees everything, manages user roles/status, full access to all projects.
+- **Project Manager** — creates/edits/deletes their own projects, creates tasks, assigns team members.
+- **Team Member** — sees projects they're added to, updates/drags their assigned tasks, chats, uploads files.
+
+## Where each feature lives
+
+| Feature | Where |
+|---|---|
+| Login/Register/Forgot password | `/auth/*` |
+| Dashboard with charts | `/dashboard` |
+| Projects list & create | `/projects` |
+| Project detail (Kanban + Chat + Activity) | `/projects/:id` |
+| Kanban drag-and-drop | Inside a project, "Board" tab |
+| Real-time chat | Inside a project, "Team Chat" tab |
+| Notifications | `/notifications` (bell icon in navbar) |
+| Calendar (task deadlines) | `/calendar` |
+| Reports & Analytics | `/reports` (Admin/PM only) |
+| Activity Timeline | `/activity` |
+
+## Run it locally
+
+### Prerequisites
 
 - **Node.js 18+** and npm — check with `node -v` and `npm -v`
 - **VS Code** (or any editor)
 - A **free MongoDB Atlas** account — https://www.mongodb.com/cloud/atlas/register
 
-## 2. Set up MongoDB Atlas
+### Set up MongoDB Atlas
 
 1. Create a free cluster on MongoDB Atlas.
 2. Under **Database Access**, create a database user with a username and password.
@@ -24,7 +77,7 @@ taskflow/
 4. Click **Connect → Drivers**, copy the connection string. It looks like:
    `mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/`
 
-## 3. Backend setup
+### Backend setup
 
 Open a terminal in VS Code:
 
@@ -56,7 +109,7 @@ npm run dev
 
 You should see `TaskFlow backend running on http://localhost:5000`. Test it by opening http://localhost:5000/api/health in a browser — it should return `{"status":"ok", ...}`.
 
-## 4. Frontend setup
+### Frontend setup
 
 Open a **second terminal** (keep the backend running in the first one):
 
@@ -68,7 +121,7 @@ npm start
 
 This starts the Angular dev server. Open **http://localhost:4200** in your browser.
 
-## 5. Test login credentials (from the seed script)
+### Test logins (created by the seed script)
 
 | Role            | Email                  | Password    |
 |-----------------|-------------------------|-------------|
@@ -79,28 +132,9 @@ This starts the Angular dev server. Open **http://localhost:4200** in your brows
 
 You can also register a brand-new account from the app's Register page.
 
-## 6. What each role can do
+These accounts are sample data for local use only.
 
-- **Admin** — sees everything, manages user roles/status, full access to all projects.
-- **Project Manager** — creates/edits/deletes their own projects, creates tasks, assigns team members.
-- **Team Member** — sees projects they're added to, updates/drags their assigned tasks, chats, uploads files.
-
-## 7. Key features and where to find them
-
-| Feature | Where |
-|---|---|
-| Login/Register/Forgot password | `/auth/*` |
-| Dashboard with charts | `/dashboard` |
-| Projects list & create | `/projects` |
-| Project detail (Kanban + Chat + Activity) | `/projects/:id` |
-| Kanban drag-and-drop | Inside a project, "Board" tab |
-| Real-time chat | Inside a project, "Team Chat" tab |
-| Notifications | `/notifications` (bell icon in navbar) |
-| Calendar (task deadlines) | `/calendar` |
-| Reports & Analytics | `/reports` (Admin/PM only) |
-| Activity Timeline | `/activity` |
-
-## 8. Common errors and fixes
+## Common errors and fixes
 
 **"MongoDB connection error"** — Your `MONGO_URI` in `backend/.env` is wrong, or your IP isn't whitelisted in Atlas Network Access. Double-check both.
 
@@ -114,7 +148,7 @@ You can also register a brand-new account from the app's Register page.
 
 **File uploads failing** — Check the file size (10MB max) and type (images, PDFs, Office docs, zip, txt, csv are allowed).
 
-## 9. Deployment
+## Deployment
 
 ### MongoDB Atlas (already cloud-hosted)
 No extra steps — just make sure Network Access allows connections from your hosting provider (or `0.0.0.0/0`).
@@ -132,4 +166,12 @@ No extra steps — just make sure Network Access allows connections from your ho
 3. On [Vercel](https://vercel.com), import the repo, framework preset "Angular", build command `ng build`, output directory `dist/frontend/browser`.
 4. Deploy. Update `CLIENT_URL` in your Render backend's environment variables to match your new Vercel URL, then redeploy the backend so CORS allows it.
 
+## Limitations
 
+- There are no automated tests for the API or the main screens yet.
+- There is no hosted demo; the app runs locally against your own MongoDB Atlas database.
+- Uploaded files are stored on the server's disk, so they would not survive a redeploy on most free hosts.
+
+## Licence
+
+MIT. See [LICENSE](LICENSE).
