@@ -1,4 +1,4 @@
-# TaskFlow — AI Project Collaboration & Team Management System
+# TaskFlow — Project Collaboration & Team Management System
 
 A full-stack project management app built with **Angular 19 + Angular Material** (frontend), **Node.js/Express** (backend), and **MongoDB Atlas** (database). Includes JWT authentication with role-based access, a drag-and-drop Kanban board, real-time chat and notifications (Socket.IO), file uploads, a dashboard with charts, calendar, reports, and an activity timeline.
 
