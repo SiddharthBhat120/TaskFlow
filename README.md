@@ -4,6 +4,22 @@
 
 Built with Angular 19, Node.js/Express, MongoDB and Socket.IO.
 
+## Screenshots
+
+**Kanban board.** Tasks move between columns by drag-and-drop.
+
+![Kanban board with To Do, In Progress, Review and Completed columns](screenshots/board.png)
+
+**Team chat.** Messages appear live for everyone in the project.
+
+![Team chat between a project manager and a team member](screenshots/chat.png)
+
+| Dashboard | Projects |
+|---|---|
+| ![Dashboard with task counts and charts](screenshots/dashboard.png) | ![Project list with status and priority](screenshots/projects.png) |
+
+Screenshots show the app running locally with sample data.
+
 ## What it does
 
 - **Kanban board** with drag-and-drop between columns. A team member can move their own assigned tasks; only an Admin or Project Manager can create or delete tasks.
