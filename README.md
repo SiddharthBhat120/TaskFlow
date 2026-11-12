@@ -1,5 +1,7 @@
 # TaskFlow
 
+[![build](https://github.com/sidxcodes/TaskFlow/actions/workflows/ci.yml/badge.svg)](https://github.com/sidxcodes/TaskFlow/actions/workflows/ci.yml)
+
 **Project and team management for small teams: a Kanban board, live team chat, and role-based access in one app.**
 
 Built with Angular 19, Node.js/Express, MongoDB and Socket.IO.
